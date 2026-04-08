@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ellie — JUNNIEPER · Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a1710;
+    --paper:  #f5f0e8;
+    --sage:   #4a5c43;
+    --sage-light: #7a9470;
+    --gold:   #c9a84c;
+    --mist:   #e8e2d5;
+    --text-muted: #7a7360;
+    --card-bg: #faf7f2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(245, 240, 232, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(74, 92, 67, 0.15);
+    padding: 0 2rem;
+  }
+
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .logo-link img {
+    height: 32px;
+    opacity: 0.9;
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .back-link {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover { color: var(--sage); }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem 3rem;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-eyebrow::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--sage);
+    opacity: 0.4;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage);
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 480px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .hero-deco {
+    position: absolute;
+    right: 2rem;
+    top: 4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 120px;
+    color: rgba(74, 92, 67, 0.07);
+    pointer-events: none;
+    font-style: italic;
+    user-select: none;
+  }
+
+  /* ── FILTERS ── */
+  .filters-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 2.5rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-pill {
+    padding: 7px 18px;
+    border-radius: 99px;
+    border: 1px solid rgba(74, 92, 67, 0.25);
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 400;
+  }
+
+  .filter-pill:hover {
+    border-color: var(--sage);
+    color: var(--sage);
+  }
+
+  .filter-pill.active {
+    background: var(--sage);
+    color: #f5f0e8;
+    border-color: var(--sage);
+  }
+
+  /* ── GALLERY GRID ── */
+  .gallery-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  .gallery-grid {
+    columns: 3;
+    column-gap: 20px;
+  }
+
+  @media (max-width: 900px) { .gallery-grid { columns: 2; } }
+  @media (max-width: 560px) { .gallery-grid { columns: 1; } }
+
+  /* ── CARD ── */
+  .card {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid rgba(74, 92, 67, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 48px rgba(26, 23, 16, 0.12);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: var(--mist);
+  }
+
+  .card-img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .card:hover .card-img { transform: scale(1.04); }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,23,16,0.6) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+
+  .card:hover .card-overlay { opacity: 1; }
+
+  .overlay-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245, 240, 232, 0.8);
+  }
+
+  .card-body {
+    padding: 14px 16px 16px;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .card-date {
+    font-size: 11px;
+    color: var(--sage-light);
+    margin-top: 8px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── LIGHTBOX ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(26, 23, 16, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .lightbox-inner {
+    max-width: 900px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .lightbox-inner { grid-template-columns: 1fr; }
+    .lightbox-info { order: 2; }
+  }
+
+  .lightbox-img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .lightbox-info {
+    min-width: 200px;
+    max-width: 240px;
+    color: var(--paper);
+  }
+
+  @media (max-width: 700px) { .lightbox-info { max-width: 100%; } }
+
+  .lightbox-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sage-light);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .lightbox-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    color: var(--paper);
+  }
+
+  .lightbox-desc {
+    font-size: 13px;
+    color: rgba(245, 240, 232, 0.6);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .lightbox-date {
+    font-size: 11px;
+    color: rgba(245, 240, 232, 0.35);
+    letter-spacing: 0.05em;
+  }
+
+  .lb-close {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(245, 240, 232, 0.1);
+    border: 1px solid rgba(245, 240, 232, 0.15);
+    color: var(--paper);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 1000;
+  }
+
+  .lb-close:hover { background: rgba(245, 240, 232, 0.2); }
+
+  /* ── LOADING / EMPTY ── */
+  .status-msg {
+    text-align: center;
+    padding: 5rem 1rem;
+    color: var(--text-muted);
+  }
+
+  .status-msg .big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  .status-msg p { font-size: 14px; font-weight: 300; }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(74, 92, 67, 0.2);
+    border-top-color: var(--sage);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(74, 92, 67, 0.12);
+    padding: 2rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  footer a { color: var(--sage); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  .sparkle { color: var(--sage); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo-link" href="https://unnienauru-cpu.github.io/junnieper/">
+      <img src="https://unnienauru-cpu.github.io/junnieper/images/logo_junnieper_ink.png" alt="JUNNIEPER" />
+    </a>
+    <a class="back-link" href="https://unnienauru-cpu.github.io/junnieper/">
+      ← Back to main site
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-deco">✦</div>
+    <div class="hero-eyebrow">Latest works</div>
+    <h1 class="hero-title">2D Art &<br><em>Recent Designs</em></h1>
+    <p class="hero-desc">A living collection — updated as new work comes to life. Characters, commissions, and everything in between.</p>
+  </section>
+
+  <div class="filters-wrap" id="filters">
+    <button class="filter-pill active" data-cat="all" onclick="filterBy('all')">All</button>
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="gallery-grid" id="gallery">
+      <div class="status-msg">
+        <div class="spinner"></div>
+        <p>Loading gallery…</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <div class="lightbox-inner">
+    <img class="lightbox-img" id="lb-img" src="" alt="" />
+    <div class="lightbox-info">
+      <div class="lightbox-eyebrow" id="lb-cat"></div>
+      <div class="lightbox-title" id="lb-title"></div>
+      <div class="lightbox-desc" id="lb-desc"></div>
+      <div class="lightbox-date" id="lb-date"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="sparkle">✦</span> &nbsp; Ellie — <a href="https://unnienauru-cpu.github.io/junnieper/">JUNNIEPER</a> &nbsp; <span class="sparkle">✦</span>
+  <br><br>© 2026 Ellie — JUNNIEPER. All rights reserved.
+</footer>
+
+<script>
+  // ─────────────────────────────────────────────
+  // PASTE YOUR GOOGLE SHEET CSV URL BELOW
+  // (see setup instructions)
+  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVLJ5b5WEv23YGmp3ohhCC-_SHb4jCtteoTDXdqUcqeau-MyGZnwueFiQFn2LwSpFBmgI2ZhrEJYQx/pub?gid=0&single=true&output=csv';
+  // ─────────────────────────────────────────────
+
+  let allItems = [];
+  let activeFilter = 'all';
+
+  async function loadSheet() {
+    const gallery = document.getElementById('gallery');
+    try {
+      const res = await fetch(SHEET_CSV_URL);
+      if (!res.ok) throw new Error('Could not load sheet');
+      const text = await res.text();
+      allItems = parseCSV(text);
+      buildFilters();
+      renderGallery(allItems);
+    } catch(e) {
+      gallery.innerHTML = `<div class="status-msg"><div class="big">Coming soon</div><p>New works are on their way ✦</p></div>`;
+    }
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g,''));
+    return lines.slice(1).map(line => {
+      const vals = smartSplit(line);
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = (vals[i]||'').replace(/^"|"$/g,'').trim());
+      return obj;
+    }).filter(r => r.title && r.imageurl);
+  }
+
+  function smartSplit(line) {
+    const result = [];
+    let cur = '';
+    let inQuote = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQuote = !inQuote; continue; }
+      if (c === ',' && !inQuote) { result.push(cur); cur = ''; continue; }
+      cur += c;
+    }
+    result.push(cur);
+    return result;
+  }
+
+  function buildFilters() {
+    const cats = [...new Set(allItems.map(i => i.category).filter(Boolean))];
+    if (cats.length === 0) return;
+    const wrap = document.getElementById('filters');
+    cats.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-pill';
+      btn.textContent = cat;
+      btn.dataset.cat = cat;
+      btn.onclick = () => filterBy(cat);
+      wrap.appendChild(btn);
+    });
+  }
+
+  function filterBy(cat) {
+    activeFilter = cat;
+    document.querySelectorAll('.filter-pill').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === cat);
+    });
+    const filtered = cat === 'all' ? allItems : allItems.filter(i => i.category === cat);
+    renderGallery(filtered);
+  }
+
+  function renderGallery(items) {
+    const gallery = document.getElementById('gallery');
+    if (items.length === 0) {
+      gallery.innerHTML = `<div class="status-msg"><div class="big">Nothing here yet</div><p>Check back soon ✦</p></div>`;
+      return;
+    }
+    gallery.innerHTML = items.map((item, i) => `
+      <div class="card" style="animation-delay:${i * 0.06}s" onclick="openLightbox(${i})">
+        <div class="card-img-wrap">
+          <img class="card-img" src="${item.imageurl}" alt="${item.title}" loading="lazy"
+            onerror="this.parentElement.innerHTML='<div style=padding:3rem;text-align:center;color:#7a7360;font-size:13px>Image unavailable</div>'" />
+          <div class="card-overlay">
+            <span class="overlay-tag">${item.category || 'Artwork'}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">${item.title}</div>
+          ${item.description ? `<div class="card-desc">${item.description}</div>` : ''}
+          ${item.date ? `<div class="card-date">${item.date}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openLightbox(idx) {
+    const filtered = activeFilter === 'all' ? allItems : allItems.filter(i => i.category === activeFilter);
+    const item = filtered[idx];
+    if (!item) return;
+    document.getElementById('lb-img').src = item.imageurl;
+    document.getElementById('lb-title').textContent = item.title;
+    document.getElementById('lb-desc').textContent = item.description || '';
+    document.getElementById('lb-cat').textContent = item.category || 'Artwork';
+    document.getElementById('lb-date').textContent = item.date || '';
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target !== e.currentTarget && !e.target.classList.contains('lb-close')) return;
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  loadSheet();
+</script>
+</body>
+</html>
