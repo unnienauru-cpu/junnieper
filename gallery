@@ -499,32 +499,37 @@
 </footer>
 
 <script>
-  // ─────────────────────────────────────────────
-  // PASTE YOUR GOOGLE SHEET CSV URL BELOW
-  // (see setup instructions)
-  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVLJ5b5WEv23YGmp3ohhCC-_SHb4jCtteoTDXdqUcqeau-MyGZnwueFiQFn2LwSpFBmgI2ZhrEJYQx/pub?gid=0&single=true&output=csv';
-  // ─────────────────────────────────────────────
-
+  const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRVLJ5b5WEv23YGmp3ohhCC-_SHb4jCtteoTDXdqUcqeau-MyGZnwueFiQFn2LwSpFBmgI2ZhrEJYQx/pub?gid=0&single=true&output=csv";
+  
   let allItems = [];
   let activeFilter = 'all';
 
   async function loadSheet() {
     const gallery = document.getElementById('gallery');
     try {
-      const res = await fetch(SHEET_CSV_URL);
+      const res = await fetch(SHEET_CSV_URL + '&t=' + new Date().getTime());
       if (!res.ok) throw new Error('Could not load sheet');
       const text = await res.text();
+      
+      // Log the raw text to ensure Google isn't sending an HTML error page
+      console.log("Raw CSV Data:", text); 
+      
       allItems = parseCSV(text);
+      console.log("Parsed Items:", allItems); // Check if items are successfully parsed
+      
       buildFilters();
       renderGallery(allItems);
     } catch(e) {
+      console.error(e);
       gallery.innerHTML = `<div class="status-msg"><div class="big">Coming soon</div><p>New works are on their way ✦</p></div>`;
     }
   }
 
   function parseCSV(text) {
     const lines = text.trim().split('\n');
-    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g,''));
+    // FIX: Added \s to the regex to strip all spaces from headers
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/["\s]/g,''));
+    
     return lines.slice(1).map(line => {
       const vals = smartSplit(line);
       const obj = {};
@@ -551,6 +556,7 @@
     const cats = [...new Set(allItems.map(i => i.category).filter(Boolean))];
     if (cats.length === 0) return;
     const wrap = document.getElementById('filters');
+    wrap.innerHTML = '<button class="filter-pill active" data-cat="all" onclick="filterBy(\'all\')">All</button>'; // Reset filters to prevent duplicates if called twice
     cats.forEach(cat => {
       const btn = document.createElement('button');
       btn.className = 'filter-pill';
