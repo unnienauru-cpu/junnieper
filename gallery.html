@@ -6,7 +6,7 @@
 <title>Ellie — JUNNIEPER · Gallery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   /* ── RESET & BASE ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,8 +18,8 @@
     --sage-light: #7a9470;
     --gold:   #c9a84c;
     --mist:   #e8e2d5;
-    --text-muted: #7a7360;
-    --card-bg: #faf7f2;
+    --text-muted: #8b8371;
+    --border-soft: rgba(74, 92, 67, 0.12);
   }
 
   html { scroll-behavior: smooth; }
@@ -32,15 +32,20 @@
     overflow-x: hidden;
   }
 
+  /* ── CUSTOM SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--mist); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--sage-light); }
+
   /* ── NOISE TEXTURE ── */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
-    opacity: 0.5;
   }
 
   /* ── HEADER ── */
@@ -48,40 +53,29 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(245, 240, 232, 0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(74, 92, 67, 0.15);
+    background: rgba(245, 240, 232, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-soft);
     padding: 0 2rem;
+    transition: all 0.3s ease;
   }
 
   .header-inner {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
-  }
-
-  .logo-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--ink);
+    height: 72px;
   }
 
   .logo-link img {
-    height: 32px;
+    height: 36px;
     opacity: 0.9;
+    transition: opacity 0.3s ease;
   }
-
-  .logo-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-  }
+  .logo-link:hover img { opacity: 1; }
 
   .back-link {
     font-size: 13px;
@@ -89,71 +83,79 @@
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 6px;
-    transition: color 0.2s;
+    gap: 8px;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .back-link:hover { color: var(--sage); }
 
-  /* ── HERO ── */
+  /* ── HERO PAGE INTRO ── */
   .hero {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 5rem 2rem 3rem;
+    padding: 6rem 2rem 4rem;
     position: relative;
+  }
+
+  .hero-content {
+    animation: fadeUp 0.8s ease cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 
   .hero-eyebrow {
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--sage);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
   }
 
-  .hero-eyebrow::after {
+  .hero-eyebrow::before {
     content: '';
     display: block;
-    width: 40px;
+    width: 24px;
     height: 1px;
     background: var(--sage);
-    opacity: 0.4;
+    opacity: 0.5;
   }
 
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-size: clamp(3.5rem, 7vw, 6rem);
     font-weight: 300;
-    line-height: 1.0;
+    line-height: 0.95;
     color: var(--ink);
     margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 
   .hero-title em {
     font-style: italic;
     color: var(--sage);
+    font-weight: 400;
   }
 
   .hero-desc {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--text-muted);
-    max-width: 480px;
-    line-height: 1.7;
+    max-width: 500px;
+    line-height: 1.8;
     font-weight: 300;
   }
 
   .hero-deco {
     position: absolute;
     right: 2rem;
-    top: 4rem;
+    top: 5rem;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 120px;
-    color: rgba(74, 92, 67, 0.07);
+    font-size: 180px;
+    color: var(--sage);
+    opacity: 0.03;
     pointer-events: none;
     font-style: italic;
     user-select: none;
@@ -161,31 +163,35 @@
 
   /* ── FILTERS ── */
   .filters-wrap {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem 2.5rem;
+    padding: 0 2rem 3rem;
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
     align-items: center;
+    animation: fadeUp 0.8s ease 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
   }
 
   .filter-pill {
-    padding: 7px 18px;
-    border-radius: 99px;
-    border: 1px solid rgba(74, 92, 67, 0.25);
+    padding: 8px 22px;
+    border-radius: 4px;
+    border: 1px solid var(--border-soft);
     background: transparent;
     color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
+    letter-spacing: 0.03em;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     font-weight: 400;
   }
 
   .filter-pill:hover {
-    border-color: var(--sage);
+    border-color: var(--sage-light);
     color: var(--sage);
+    background: rgba(250, 247, 242, 0.5);
   }
 
   .filter-pill.active {
@@ -194,68 +200,66 @@
     border-color: var(--sage);
   }
 
-  /* ── GALLERY GRID ── */
+  /* ── GALLERY GRID (MUSEUM LAYOUT) ── */
   .gallery-wrap {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 2rem 6rem;
+    padding: 0 2rem 8rem;
   }
 
   .gallery-grid {
     columns: 3;
-    column-gap: 20px;
+    column-gap: 32px;
   }
 
-  @media (max-width: 900px) { .gallery-grid { columns: 2; } }
-  @media (max-width: 560px) { .gallery-grid { columns: 1; } }
+  @media (max-width: 1024px) { .gallery-grid { columns: 2; column-gap: 24px; } }
+  @media (max-width: 600px) { .gallery-grid { columns: 1; } }
 
-  /* ── CARD ── */
+  /* ── CARD PORTFOLIO STYLE ── */
   .card {
     break-inside: avoid;
-    margin-bottom: 20px;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--card-bg);
-    border: 1px solid rgba(74, 92, 67, 0.1);
+    margin-bottom: 40px;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: transparent;
+    border: none;
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeUp 0.5s ease forwards;
-  }
-
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 48px rgba(26, 23, 16, 0.12);
-  }
-
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
+    animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 
   .card-img-wrap {
     position: relative;
     overflow: hidden;
     background: var(--mist);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(26, 23, 16, 0.04);
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
   }
 
   .card-img {
     width: 100%;
     display: block;
-    transition: transform 0.5s ease;
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  .card:hover .card-img { transform: scale(1.04); }
+  .card:hover .card-img-wrap {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(26, 23, 16, 0.08);
+  }
+
+  .card:hover .card-img {
+    transform: scale(1.03);
+  }
 
   .card-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(26,23,16,0.6) 0%, transparent 50%);
+    background: linear-gradient(to top, rgba(20,18,15,0.7) 0%, transparent 40%);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
     display: flex;
     align-items: flex-end;
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   .card:hover .card-overlay { opacity: 1; }
@@ -263,26 +267,35 @@
   .overlay-tag {
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(245, 240, 232, 0.8);
+    color: rgba(245, 240, 232, 0.9);
+    transform: translateY(10px);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .card:hover .overlay-tag {
+    transform: translateY(0);
   }
 
   .card-body {
-    padding: 14px 16px 16px;
+    padding: 16px 4px 0; /* Clean text under image */
   }
 
   .card-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 400;
     color: var(--ink);
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     line-height: 1.2;
+    transition: color 0.3s ease;
   }
 
+  .card:hover .card-title { color: var(--sage); }
+
   .card-desc {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-muted);
     line-height: 1.6;
     font-weight: 300;
@@ -291,24 +304,27 @@
   .card-date {
     font-size: 11px;
     color: var(--sage-light);
-    margin-top: 8px;
-    letter-spacing: 0.03em;
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
   }
 
-  /* ── LIGHTBOX ── */
+  /* ── LIGHTBOX (MUSEUM PLAQUE) ── */
   .lightbox {
     position: fixed;
     inset: 0;
     z-index: 999;
-    background: rgba(26, 23, 16, 0.94);
+    background: rgba(18, 16, 13, 0.96); /* Darker for better contrast */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 3rem;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
-    backdrop-filter: blur(8px);
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .lightbox.open {
@@ -317,132 +333,146 @@
   }
 
   .lightbox-inner {
-    max-width: 900px;
+    max-width: 1200px;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 2rem;
-    align-items: start;
+    grid-template-columns: 1fr 300px;
+    gap: 4rem;
+    align-items: center;
+    transform: scale(0.98);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
-  @media (max-width: 700px) {
-    .lightbox-inner { grid-template-columns: 1fr; }
-    .lightbox-info { order: 2; }
+  .lightbox.open .lightbox-inner {
+    transform: scale(1);
+  }
+
+  @media (max-width: 900px) {
+    .lightbox-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .lightbox-info { order: 2; padding-top: 2rem; border-top: 1px solid rgba(245, 240, 232, 0.1); }
   }
 
   .lightbox-img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 4px;
     display: block;
-    max-height: 80vh;
+    max-height: 85vh;
     object-fit: contain;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
   }
 
   .lightbox-info {
-    min-width: 200px;
-    max-width: 240px;
     color: var(--paper);
   }
 
-  @media (max-width: 700px) { .lightbox-info { max-width: 100%; } }
-
   .lightbox-eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-size: 11px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--sage-light);
-    margin-bottom: 10px;
-    font-weight: 500;
+    margin-bottom: 1rem;
+    font-weight: 400;
   }
 
   .lightbox-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 300;
     line-height: 1.1;
-    margin-bottom: 12px;
-    color: var(--paper);
+    margin-bottom: 16px;
+    color: #fff;
   }
 
   .lightbox-desc {
-    font-size: 13px;
-    color: rgba(245, 240, 232, 0.6);
-    line-height: 1.7;
+    font-size: 14px;
+    color: rgba(245, 240, 232, 0.7);
+    line-height: 1.8;
     font-weight: 300;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .lightbox-date {
-    font-size: 11px;
-    color: rgba(245, 240, 232, 0.35);
+    font-size: 12px;
+    color: rgba(245, 240, 232, 0.4);
     letter-spacing: 0.05em;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
   }
 
   .lb-close {
     position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
-    background: rgba(245, 240, 232, 0.1);
-    border: 1px solid rgba(245, 240, 232, 0.15);
-    color: var(--paper);
-    width: 40px;
-    height: 40px;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: 1px solid rgba(245, 240, 232, 0.2);
+    color: rgba(245, 240, 232, 0.8);
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     font-size: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
     z-index: 1000;
   }
 
-  .lb-close:hover { background: rgba(245, 240, 232, 0.2); }
+  .lb-close:hover { 
+    background: var(--paper); 
+    color: var(--ink);
+    transform: rotate(90deg);
+  }
 
   /* ── LOADING / EMPTY ── */
   .status-msg {
     text-align: center;
-    padding: 5rem 1rem;
+    padding: 6rem 1rem;
     color: var(--text-muted);
+    grid-column: 1 / -1;
   }
 
   .status-msg .big {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 300;
     margin-bottom: 0.5rem;
     color: var(--ink);
   }
 
-  .status-msg p { font-size: 14px; font-weight: 300; }
+  .status-msg p { font-size: 15px; font-weight: 300; }
 
   .spinner {
-    width: 32px;
-    height: 32px;
-    border: 2px solid rgba(74, 92, 67, 0.2);
+    width: 36px;
+    height: 36px;
+    border: 2px solid var(--border-soft);
     border-top-color: var(--sage);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
-    margin: 0 auto 1rem;
+    margin: 0 auto 1.5rem;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
 
   /* ── FOOTER ── */
   footer {
-    border-top: 1px solid rgba(74, 92, 67, 0.12);
-    padding: 2rem;
+    border-top: 1px solid var(--border-soft);
+    padding: 3rem 2rem;
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-muted);
     font-weight: 300;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
   }
 
-  footer a { color: var(--sage); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+  footer a { color: var(--sage); text-decoration: none; transition: color 0.3s; }
+  footer a:hover { color: var(--ink); }
 
-  .sparkle { color: var(--sage); }
+  .sparkle { color: var(--sage-light); font-size: 10px; }
 </style>
 </head>
 <body>
@@ -461,20 +491,22 @@
 <main>
   <section class="hero">
     <div class="hero-deco">✦</div>
-    <div class="hero-eyebrow">Latest works</div>
-    <h1 class="hero-title">2D Art &<br><em>Recent Designs</em></h1>
-    <p class="hero-desc">A living collection — updated as new work comes to life. Characters, commissions, and everything in between.</p>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Curated Archive</div>
+      <h1 class="hero-title">2D Art &<br><em>Recent Designs</em></h1>
+      <p class="hero-desc">A living collection — updated as new work comes to life. Characters, commissions, illustrations, and everything beautifully in between.</p>
+    </div>
   </section>
 
   <div class="filters-wrap" id="filters">
-    <button class="filter-pill active" data-cat="all" onclick="filterBy('all')">All</button>
+    <button class="filter-pill active" data-cat="all" onclick="filterBy('all')">All Works</button>
   </div>
 
   <div class="gallery-wrap">
     <div class="gallery-grid" id="gallery">
       <div class="status-msg">
         <div class="spinner"></div>
-        <p>Loading gallery…</p>
+        <p>Curating gallery…</p>
       </div>
     </div>
   </div>
@@ -511,23 +543,17 @@
       if (!res.ok) throw new Error('Could not load sheet');
       const text = await res.text();
       
-      // Log the raw text to ensure Google isn't sending an HTML error page
-      console.log("Raw CSV Data:", text); 
-      
       allItems = parseCSV(text);
-      console.log("Parsed Items:", allItems); // Check if items are successfully parsed
-      
       buildFilters();
       renderGallery(allItems);
     } catch(e) {
       console.error(e);
-      gallery.innerHTML = `<div class="status-msg"><div class="big">Coming soon</div><p>New works are on their way ✦</p></div>`;
+      gallery.innerHTML = `<div class="status-msg"><div class="big">Coming soon</div><p>New works are currently being prepared. Check back shortly. ✦</p></div>`;
     }
   }
 
   function parseCSV(text) {
     const lines = text.trim().split('\n');
-    // FIX: Added \s to the regex to strip all spaces from headers
     const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/["\s]/g,''));
     
     return lines.slice(1).map(line => {
@@ -556,7 +582,7 @@
     const cats = [...new Set(allItems.map(i => i.category).filter(Boolean))];
     if (cats.length === 0) return;
     const wrap = document.getElementById('filters');
-    wrap.innerHTML = '<button class="filter-pill active" data-cat="all" onclick="filterBy(\'all\')">All</button>'; // Reset filters to prevent duplicates if called twice
+    wrap.innerHTML = '<button class="filter-pill active" data-cat="all" onclick="filterBy(\'all\')">All Works</button>';
     cats.forEach(cat => {
       const btn = document.createElement('button');
       btn.className = 'filter-pill';
@@ -583,10 +609,10 @@
       return;
     }
     gallery.innerHTML = items.map((item, i) => `
-      <div class="card" style="animation-delay:${i * 0.06}s" onclick="openLightbox(${i})">
+      <div class="card" style="animation-delay:${i * 0.08}s" onclick="openLightbox(${i})">
         <div class="card-img-wrap">
           <img class="card-img" src="${item.imageurl}" alt="${item.title}" loading="lazy"
-            onerror="this.parentElement.innerHTML='<div style=padding:3rem;text-align:center;color:#7a7360;font-size:13px>Image unavailable</div>'" />
+            onerror="this.parentElement.innerHTML='<div style=padding:4rem;text-align:center;color:#8b8371;font-size:13px>Image unavailable</div>'" />
           <div class="card-overlay">
             <span class="overlay-tag">${item.category || 'Artwork'}</span>
           </div>
@@ -607,7 +633,7 @@
     document.getElementById('lb-img').src = item.imageurl;
     document.getElementById('lb-title').textContent = item.title;
     document.getElementById('lb-desc').textContent = item.description || '';
-    document.getElementById('lb-cat').textContent = item.category || 'Artwork';
+    document.getElementById('lb-cat').textContent = item.category || 'Archive';
     document.getElementById('lb-date').textContent = item.date || '';
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
