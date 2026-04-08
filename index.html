@@ -1727,5 +1727,99 @@ footer a:hover { text-decoration: underline; }
 
 })();
 </script>
+<!-- ✦ JUNNIEPER Gallery Bubble — paste this just before </body> in your index.html ✦ -->
+<style>
+  .gallery-bubble {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    cursor: pointer;
+    text-decoration: none;
+    filter: drop-shadow(0 4px 16px rgba(26,23,16,0.25));
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-bubble:hover {
+    transform: scale(1.08);
+  }
+
+  .bubble-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #1a1710;
+    border: 1.5px solid rgba(201, 168, 76, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: border-color 0.3s ease;
+  }
+
+  .gallery-bubble:hover .bubble-circle {
+    border-color: rgba(201, 168, 76, 0.9);
+  }
+
+  .bubble-icon {
+    font-size: 22px;
+    animation: bubblePulse 3s ease-in-out infinite;
+  }
+
+  @keyframes bubblePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .bubble-label {
+    background: #1a1710;
+    color: #f5f0e8;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    padding: 6px 14px 6px 10px;
+    border-radius: 0 99px 99px 0;
+    margin-left: -8px;
+    white-space: nowrap;
+    border: 1.5px solid rgba(201, 168, 76, 0.3);
+    border-left: none;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .gallery-bubble:hover .bubble-label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Ping animation ring */
+  .bubble-ping {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(201, 168, 76, 0.4);
+    animation: ping 2.5s ease-out infinite;
+  }
+
+  @keyframes ping {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+</style>
+
+<a class="gallery-bubble" href="gallery.html" title="See my latest 2D art & designs">
+  <div class="bubble-circle">
+    <div class="bubble-ping"></div>
+    <span class="bubble-icon">✦</span>
+  </div>
+  <span class="bubble-label">Latest works</span>
+</a>
+<!-- ✦ End of gallery bubble ✦ -->
 </body>
 </html>
