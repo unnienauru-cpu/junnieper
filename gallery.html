@@ -12,17 +12,26 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --ink:    #1a1710;
-    --paper:  #f5f0e8;
-    --sage:   #4a5c43;
-    --sage-light: #7a9470;
-    --gold:   #c9a84c;
-    --mist:   #e8e2d5;
-    --text-muted: #7a7360;
-    --card-bg: #faf7f2;
+    --ink:        #364a2f;
+    --ink-mid:    #4a5f3f;
+    --paper:      #f5f4d5;
+    --sage:       #5c724b;
+    --terra:      #b87355;
+    --terra-pale: #f5ebe3;
+    --sage-light: #a3b689;
+    --gold:       #b87355;
+    --mist:       #eef1e6;
+    --border:     #ddd8c4;
+    --text-muted: #7a8a6e;
+    --card-bg:    #faf9ec;
   }
 
   html { scroll-behavior: smooth; }
+
+  ::-webkit-scrollbar              { width: 5px; }
+  ::-webkit-scrollbar-track        { background: var(--paper); }
+  ::-webkit-scrollbar-thumb        { background: var(--terra); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover  { background: var(--terra); }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -48,9 +57,10 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(245, 240, 232, 0.92);
+    background: rgba(245, 244, 213, 0.94);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(74, 92, 67, 0.15);
+    border-top: 3px solid var(--terra);
+    border-bottom: 1px solid var(--border);
     padding: 0 2rem;
   }
 
@@ -93,7 +103,7 @@
     transition: color 0.2s;
   }
 
-  .back-link:hover { color: var(--sage); }
+  .back-link:hover { color: var(--terra); }
 
   /* ── HERO ── */
   .hero {
@@ -104,59 +114,95 @@
   }
 
   .hero-eyebrow {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--sage);
-    margin-bottom: 1rem;
+    color: var(--gold);
+    margin-bottom: 1.4rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
+  .hero-eyebrow::before,
   .hero-eyebrow::after {
     content: '';
     display: block;
-    width: 40px;
+    width: 28px;
     height: 1px;
-    background: var(--sage);
-    opacity: 0.4;
+    background: var(--gold);
+    opacity: 0.55;
   }
 
+  /* ── HERO TITLE ── */
   .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 6vw, 5.5rem);
-    font-weight: 300;
-    line-height: 1.0;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    line-height: 1;
   }
 
-  .hero-title em {
+  .ht-label {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.45em;
+  }
+
+  .ht-main {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4.5rem, 9.5vw, 8.5rem);
+    font-weight: 300;
     font-style: italic;
     color: var(--sage);
+    line-height: 0.88;
+    letter-spacing: -0.025em;
+    position: relative;
+  }
+
+  .ht-rule {
+    display: block;
+    width: 72px;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin: 0.45em 0 0.3em;
+    opacity: 0.7;
+  }
+
+  .ht-sub {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4.5vw, 4rem);
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
   }
 
   .hero-desc {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-muted);
-    max-width: 480px;
-    line-height: 1.7;
+    max-width: 420px;
+    line-height: 1.8;
     font-weight: 300;
   }
 
   .hero-deco {
     position: absolute;
-    right: 2rem;
-    top: 4rem;
+    right: 1.5rem;
+    top: 3.5rem;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 120px;
-    color: rgba(74, 92, 67, 0.07);
+    font-size: clamp(80px, 12vw, 160px);
+    color: rgba(92, 114, 75, 0.055);
     pointer-events: none;
     font-style: italic;
     user-select: none;
+    line-height: 1;
   }
 
   /* ── FILTERS ── */
@@ -173,7 +219,7 @@
   .filter-pill {
     padding: 7px 18px;
     border-radius: 99px;
-    border: 1px solid rgba(74, 92, 67, 0.25);
+    border: 1px solid rgba(92, 114, 75, 0.25);
     background: transparent;
     color: var(--text-muted);
     font-family: 'DM Sans', sans-serif;
@@ -184,13 +230,13 @@
   }
 
   .filter-pill:hover {
-    border-color: var(--sage);
-    color: var(--sage);
+    border-color: var(--terra);
+    color: var(--terra);
   }
 
   .filter-pill.active {
     background: var(--sage);
-    color: #f5f0e8;
+    color: #f5f4d5;
     border-color: var(--sage);
   }
 
@@ -216,7 +262,7 @@
     border-radius: 12px;
     overflow: hidden;
     background: var(--card-bg);
-    border: 1px solid rgba(74, 92, 67, 0.1);
+    border: 1px solid rgba(92, 114, 75, 0.1);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0;
@@ -226,7 +272,7 @@
 
   .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 48px rgba(26, 23, 16, 0.12);
+    box-shadow: 0 20px 48px rgba(54, 74, 47, 0.12);
   }
 
   @keyframes fadeUp {
@@ -265,7 +311,7 @@
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(245, 240, 232, 0.8);
+    color: rgba(245, 244, 213, 0.8);
   }
 
   .card-body {
@@ -300,7 +346,7 @@
     position: fixed;
     inset: 0;
     z-index: 999;
-    background: rgba(26, 23, 16, 0.94);
+    background: rgba(30, 45, 25, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -366,7 +412,7 @@
 
   .lightbox-desc {
     font-size: 13px;
-    color: rgba(245, 240, 232, 0.6);
+    color: rgba(245, 244, 213, 0.6);
     line-height: 1.7;
     font-weight: 300;
     margin-bottom: 1.5rem;
@@ -374,7 +420,7 @@
 
   .lightbox-date {
     font-size: 11px;
-    color: rgba(245, 240, 232, 0.35);
+    color: rgba(245, 244, 213, 0.35);
     letter-spacing: 0.05em;
   }
 
@@ -382,8 +428,8 @@
     position: fixed;
     top: 1.5rem;
     right: 1.5rem;
-    background: rgba(245, 240, 232, 0.1);
-    border: 1px solid rgba(245, 240, 232, 0.15);
+    background: rgba(245, 244, 213, 0.1);
+    border: 1px solid rgba(245, 244, 213, 0.15);
     color: var(--paper);
     width: 40px;
     height: 40px;
@@ -419,7 +465,7 @@
   .spinner {
     width: 32px;
     height: 32px;
-    border: 2px solid rgba(74, 92, 67, 0.2);
+    border: 2px solid rgba(92, 114, 75, 0.2);
     border-top-color: var(--sage);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
@@ -430,7 +476,7 @@
 
   /* ── FOOTER ── */
   footer {
-    border-top: 1px solid rgba(74, 92, 67, 0.12);
+    border-top: 1px solid rgba(92, 114, 75, 0.12);
     padding: 2rem;
     text-align: center;
     font-size: 12px;
@@ -462,7 +508,12 @@
   <section class="hero">
     <div class="hero-deco">✦</div>
     <div class="hero-eyebrow">Latest works</div>
-    <h1 class="hero-title">2D Art &<br><em>Recent Designs</em></h1>
+    <h1 class="hero-title">
+      <span class="ht-label">2D Art &amp; Design</span>
+      <span class="ht-main">Recent</span>
+      <span class="ht-rule"></span>
+      <span class="ht-sub">Designs</span>
+    </h1>
     <p class="hero-desc">A living collection — updated as new work comes to life. Characters, commissions, and everything in between.</p>
   </section>
 
@@ -586,7 +637,7 @@
       <div class="card" style="animation-delay:${i * 0.06}s" onclick="openLightbox(${i})">
         <div class="card-img-wrap">
           <img class="card-img" src="${item.imageurl}" alt="${item.title}" loading="lazy"
-            onerror="this.parentElement.innerHTML='<div style=padding:3rem;text-align:center;color:#7a7360;font-size:13px>Image unavailable</div>'" />
+            onerror="this.parentElement.innerHTML='<div style=padding:3rem;text-align:center;color:#7a8a6e;font-size:13px>Image unavailable</div>'" />
           <div class="card-overlay">
             <span class="overlay-tag">${item.category || 'Artwork'}</span>
           </div>
